@@ -398,6 +398,29 @@ Error generating stack: `+l.message+`
     </script>
 
     
+    <!-- Fix: Make phone and email clickable -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function makeClickable() {
+        var allP = document.querySelectorAll('p, span');
+        allP.forEach(function(el) {
+          if (el.querySelector('a')) return;
+          var text = el.textContent || '';
+          if (text.indexOf('5988 4031') !== -1 && !el.dataset.linked) {
+            el.dataset.linked = '1';
+            el.innerHTML = '<a href="tel:+85259884031" style="color:inherit;text-decoration:underline;cursor:pointer;">\u{1F4DE} 5988 4031</a>';
+          }
+          if (text.indexOf('kitty@erhu.me') !== -1 && !el.dataset.linked) {
+            el.dataset.linked = '1';
+            el.innerHTML = '<a href="mailto:kitty@erhu.me" style="color:inherit;text-decoration:underline;cursor:pointer;">\u{2709}\uFE0F kitty@erhu.me</a>';
+          }
+        });
+      }
+      makeClickable();
+      new MutationObserver(makeClickable).observe(document.body, { childList: true, subtree: true });
+    });
+    </script>
+
     <!-- Fix: Form horizontal overflow + rename labels to Student -->
     <style>
       /* Prevent horizontal scroll on mobile */
