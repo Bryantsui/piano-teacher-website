@@ -322,12 +322,13 @@ Error generating stack: `+l.message+`
       };
     });
     </script>
-    <!-- Language Toggle: EN / 中文 floating button -->
+    <!-- Language Toggle: EN / 中文 floating button (hides when dialog open) -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function() {
         var isZh = window.location.pathname.indexOf('/zh') === 0;
         var btn = document.createElement('a');
+        btn.id = 'lang-toggle';
         btn.href = isZh ? '/' : '/zh/';
         btn.setAttribute('aria-label', isZh ? 'Switch to English' : '切換至中文');
         btn.innerHTML = isZh
@@ -338,7 +339,7 @@ Error generating stack: `+l.message+`
           + 'background:linear-gradient(135deg,#a89968,#8b7d4a);color:#fff;'
           + 'display:flex;align-items:center;justify-content:center;'
           + 'box-shadow:0 4px 12px rgba(0,0,0,0.2);cursor:pointer;'
-          + 'text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;'
+          + 'text-decoration:none;transition:transform 0.2s,box-shadow 0.2s,opacity 0.2s;'
           + 'border:2px solid rgba(255,255,255,0.3);';
         btn.addEventListener('mouseenter', function() {
           btn.style.transform = 'scale(1.1)';
@@ -349,6 +350,13 @@ Error generating stack: `+l.message+`
           btn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
         });
         document.body.appendChild(btn);
+
+        var togObs = new MutationObserver(function() {
+          var dialog = document.querySelector('[role="dialog"]');
+          btn.style.opacity = dialog ? '0' : '1';
+          btn.style.pointerEvents = dialog ? 'none' : 'auto';
+        });
+        togObs.observe(document.body, { childList: true, subtree: true });
       }, 800);
     });
     </script>
