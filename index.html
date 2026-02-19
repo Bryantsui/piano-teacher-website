@@ -3,6 +3,26 @@
 
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Google Tag Manager (replace GTM-XXXXXXX with your actual container ID) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+
+    <!-- Meta Pixel (replace PIXEL_ID with your actual pixel ID) -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'PIXEL_ID');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=PIXEL_ID&ev=PageView&noscript=1"/></noscript>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
@@ -131,6 +151,93 @@ Error generating stack: `+l.message+`
     			domain: window.location.host
   			}
 			})
-		</script></body>
+		</script>
+
+    <!-- Conversion Tracking: WhatsApp clicks fire Google Ads + Meta Pixel leads -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var observer = new MutationObserver(function() {
+          document.querySelectorAll('a[href*="wa.me"], button').forEach(function(el) {
+            if (el.dataset.trackBound) return;
+            var text = (el.textContent || '').toLowerCase();
+            var href = (el.href || '').toLowerCase();
+            if (href.indexOf('wa.me') !== -1 || text.indexOf('whatsapp') !== -1) {
+              el.dataset.trackBound = 'true';
+              el.addEventListener('click', function() {
+                if (typeof gtag === 'function') {
+                  gtag('event', 'conversion', {
+                    send_to: 'AW-CONVERSION_ID/CONVERSION_LABEL',
+                    event_callback: function() {}
+                  });
+                }
+                if (window.dataLayer) {
+                  window.dataLayer.push({
+                    event: 'whatsapp_lead',
+                    instrument: document.querySelector('[data-instrument]')?.dataset?.instrument || 'unknown'
+                  });
+                }
+                if (typeof fbq === 'function') {
+                  fbq('track', 'Lead', {
+                    content_name: 'WhatsApp Inquiry',
+                    content_category: 'Music Lessons Taikoo'
+                  });
+                }
+              });
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+      }, 1000);
+    });
+    </script>
+
+    <!-- SEO: Bilingual alt text + lazy loading for below-fold images -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var altTextMap = {
+        'piano': 'Piano Teacher Taikoo Kornhill - 鋼琴老師太古康怡',
+        'erhu': 'Erhu Teacher Hong Kong Taikoo - 二胡老師太古城',
+        'music': 'Music Studio Taikoo Shing - 太古城音樂教室',
+        'teacher': 'Piano Erhu Teacher Kornhill - 康怡鋼琴二胡老師',
+        'lesson': 'Music Lessons Taikoo - 太古音樂課程',
+        'student': 'Music Students Taikoo Kornhill - 太古康怡音樂學生',
+        'keyboard': 'Piano Keyboard Lessons Taikoo - 太古鋼琴課程',
+        'abrsm': 'ABRSM Piano Exam Preparation Taikoo - ABRSM鋼琴考試準備太古'
+      };
+      var defaultAlt = 'Kitty Music Studio Taikoo Kornhill - 太古康怡音樂教室';
+
+      setTimeout(function() {
+        var images = document.querySelectorAll('img');
+        var viewportHeight = window.innerHeight;
+
+        images.forEach(function(img) {
+          var rect = img.getBoundingClientRect();
+          var src = (img.src || '').toLowerCase();
+          var existingAlt = img.getAttribute('alt') || '';
+
+          if (!existingAlt || existingAlt.length < 5) {
+            var matched = false;
+            for (var key in altTextMap) {
+              if (src.indexOf(key) !== -1) {
+                img.setAttribute('alt', altTextMap[key]);
+                matched = true;
+                break;
+              }
+            }
+            if (!matched) {
+              img.setAttribute('alt', defaultAlt);
+            }
+          }
+
+          if (rect.top > viewportHeight * 1.2) {
+            img.setAttribute('loading', 'lazy');
+            img.setAttribute('decoding', 'async');
+          }
+        });
+      }, 500);
+    });
+    </script>
+  </body>
 
 </html>
