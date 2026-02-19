@@ -256,6 +256,37 @@ Error generating stack: `+l.message+`
     </script>
 
     
+    <!-- Fix: Browser back button closes dialog instead of navigating away -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var dialogOpen = false;
+      var observer = new MutationObserver(function() {
+        var dialog = document.querySelector('[role="dialog"]');
+        if (dialog && !dialogOpen) {
+          dialogOpen = true;
+          history.pushState({ dialog: true }, '');
+        } else if (!dialog && dialogOpen) {
+          dialogOpen = false;
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      window.addEventListener('popstate', function(e) {
+        if (dialogOpen) {
+          var overlay = document.querySelector('[data-radix-portal]') ||
+                        document.querySelector('[role="dialog"]')?.closest('[data-radix-portal]');
+          var closeBtn = document.querySelector('[role="dialog"] button[type="button"]');
+          if (closeBtn) {
+            closeBtn.click();
+          } else if (overlay) {
+            overlay.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+          }
+          dialogOpen = false;
+        }
+      });
+    });
+    </script>
+
     <!-- Fix: Intercept WhatsApp form and redirect directly to wa.me -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
