@@ -155,6 +155,148 @@
       }
     }
     </script>
+
+    <!-- Mobile alignment and consistency fixes -->
+    <style>
+      /* Center all CTA buttons and badges */
+      @media (max-width: 768px) {
+        /* Center section headings and descriptions */
+        h1, h2, h3, h4, h5, h6, p {
+          text-align: center !important;
+        }
+
+        /* Center all buttons and links that act as buttons */
+        a[href*="whatsapp"], a[href*="wa.me"],
+        button, [role="button"],
+        a[href^="#"] {
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          text-align: center !important;
+        }
+
+        /* Center badge/pill elements (like "Most Popular") */
+        [class*="badge"], [class*="pill"], [class*="tag"],
+        span[class*="rounded-full"], div[class*="rounded-full"],
+        span[class*="bg-"] {
+          display: block !important;
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          width: fit-content !important;
+        }
+
+        /* Center card content */
+        [class*="card"], [class*="Card"],
+        div[class*="rounded-lg"], div[class*="rounded-xl"],
+        div[class*="rounded-2xl"] {
+          text-align: center !important;
+        }
+
+        /* Center icon containers */
+        svg, [class*="icon"], [class*="Icon"] {
+          margin-left: auto !important;
+          margin-right: auto !important;
+          display: block !important;
+        }
+
+        /* Center inline icon+text groups */
+        div[class*="flex"][class*="items-center"][class*="gap"] {
+          justify-content: center !important;
+        }
+
+        /* Center list items with icons (like checkmarks) */
+        li, [class*="flex"][class*="gap"] > * {
+          text-align: center !important;
+        }
+
+        ul, ol {
+          list-style-position: inside !important;
+          padding-left: 0 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+        }
+
+        li {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 8px !important;
+        }
+
+        /* Center feature/highlight cards in Young Talent section */
+        [class*="grid"] > div {
+          text-align: center !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+        }
+
+        /* Ensure images are centered */
+        img {
+          margin-left: auto !important;
+          margin-right: auto !important;
+          display: block !important;
+        }
+
+        /* Center stat numbers */
+        [class*="text-3xl"], [class*="text-4xl"], [class*="text-5xl"],
+        [class*="font-bold"] {
+          text-align: center !important;
+          width: 100% !important;
+        }
+
+        /* Center "Learn More" and similar link buttons */
+        a[class*="inline-flex"], a[class*="flex"],
+        a[class*="button"], a[class*="btn"] {
+          justify-content: center !important;
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          width: fit-content !important;
+        }
+
+        /* Fix pricing cards alignment */
+        [class*="border"][class*="rounded"] {
+          text-align: center !important;
+        }
+
+        /* Center FAQ section */
+        [class*="accordion"], [class*="Accordion"],
+        details, summary {
+          text-align: center !important;
+        }
+
+        /* Fix testimonial cards */
+        blockquote, [class*="quote"], [class*="testimonial"] {
+          text-align: center !important;
+        }
+
+        /* Ensure container is centered */
+        .container, [class*="container"] {
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+
+        /* Center section containers */
+        section, [class*="section"] {
+          text-align: center !important;
+        }
+
+        /* Fix nav on mobile - keep left aligned */
+        nav, header, [class*="nav"], [class*="header"] {
+          text-align: left !important;
+        }
+        nav *, header * {
+          text-align: left !important;
+          margin-left: unset !important;
+          margin-right: unset !important;
+        }
+      }
+    </style>
   </head>
 
   <body>
