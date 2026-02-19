@@ -277,7 +277,7 @@ Error generating stack: `+l.message+`
       setTimeout(function() {
         var isZh = window.location.pathname.indexOf('/zh') === 0;
         var btn = document.createElement('a');
-        btn.href = isZh ? '/' : '/zh';
+        btn.href = isZh ? '/' : '/zh/';
         btn.setAttribute('aria-label', isZh ? 'Switch to English' : '切換至中文');
         btn.innerHTML = isZh
           ? '<span style="font-size:13px;font-weight:600">EN</span>'
