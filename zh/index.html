@@ -241,23 +241,7 @@ Error generating stack: `+l.message+`
 				host: 'https://manus.im',
 				amplitudeKey: '46ac3f9abb41dd2d17a5785e052bc6d3',
 			};
-			</script><script src="https://files.manuscdn.com/manus-space-dispatcher/spaceEditor-DPV-_I11.js" async></script><script
-			defer
-			data-domain="manus.space"
-			src="https://plausible.io/js/script.file-downloads.hash.outbound-links.pageview-props.revenue.tagged-events.js"
-		></script>
-		<script>
-			window.plausible =
-				window.plausible ||
-				function () {
-					(window.plausible.q = window.plausible.q || []).push(arguments);
-				};
-			plausible('custom-pageview', {
-			  props: {
-    			domain: window.location.host
-  			}
-			})
-		</script>
+</script>
 
     <!-- Dynamic SEO: update title + meta for /zh route -->
     <script>
@@ -271,7 +255,43 @@ Error generating stack: `+l.message+`
     })();
     </script>
 
-        <!-- Language Toggle: EN / 中文 floating button -->
+    
+    <!-- Fix: Intercept WhatsApp form and redirect directly to wa.me -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Hide any Manus branding elements
+      var style = document.createElement('style');
+      style.textContent = '[class*="manus"], [id*="manus"], [data-manus], iframe[src*="manus"] { display:none!important; visibility:hidden!important; pointer-events:none!important; } .manus-previewer-root, .manus-previewer-content-root { display:none!important; }';
+      document.head.appendChild(style);
+
+      // Intercept failed WhatsApp API calls and redirect to wa.me directly
+      var origOpen = XMLHttpRequest.prototype.open;
+      var origFetch = window.fetch;
+
+      window.fetch = function(url, opts) {
+        if (typeof url === 'string' && (url.indexOf('sendWhatsAppLead') !== -1 || url.indexOf('trpc') !== -1)) {
+          var body = opts && opts.body ? JSON.parse(opts.body) : {};
+          var data = body && body['0'] ? body['0'].json : body;
+          var msg = 'Hi, I am interested in music lessons.';
+          if (data) {
+            var parts = [];
+            if (data.parentName) parts.push('Name: ' + data.parentName);
+            if (data.childAge) parts.push('Child age: ' + data.childAge);
+            if (data.musicExperience) parts.push('Experience: ' + data.musicExperience);
+            if (data.lessonType) parts.push('Instrument: ' + data.lessonType);
+            if (data.location) parts.push('Location: ' + data.location);
+            if (data.additionalNotes) parts.push('Notes: ' + data.additionalNotes);
+            if (parts.length > 0) msg = parts.join('\n');
+          }
+          var waUrl = 'https://wa.me/85259884031?text=' + encodeURIComponent(msg);
+          window.open(waUrl, '_blank');
+          return Promise.resolve(new Response(JSON.stringify([{result:{data:{whatsappUrl:waUrl}}}]), {status:200, headers:{'Content-Type':'application/json'}}));
+        }
+        return origFetch.apply(this, arguments);
+      };
+    });
+    </script>
+    <!-- Language Toggle: EN / 中文 floating button -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function() {
