@@ -398,6 +398,57 @@ Error generating stack: `+l.message+`
     </script>
 
     
+    <!-- Fix: Form horizontal overflow + rename labels to Student -->
+    <style>
+      /* Prevent horizontal scroll on mobile */
+      html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+      [role="dialog"] { max-width: 95vw !important; overflow-x: hidden !important; }
+      [role="dialog"] > div { max-width: 100% !important; overflow-x: hidden !important; }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var formObs = new MutationObserver(function() {
+        var dialog = document.querySelector('[role="dialog"]');
+        if (!dialog) return;
+        var labels = dialog.querySelectorAll('label');
+        labels.forEach(function(label) {
+          var text = label.textContent.trim();
+          // English replacements
+          if (text === "Parent's Name" || text === "Parent's Name*")
+            label.innerHTML = label.innerHTML.replace("Parent's Name", "Student Name");
+          if (text === "Child's Age" || text === "Child's Age*")
+            label.innerHTML = label.innerHTML.replace("Child's Age", "Student Age");
+          // Chinese replacements
+          if (text === "家長姓名" || text === "家長姓名*")
+            label.innerHTML = label.innerHTML.replace("家長姓名", "學生姓名");
+          if (text === "孩子年齡" || text === "孩子年齡*")
+            label.innerHTML = label.innerHTML.replace("孩子年齡", "學生年齡");
+        });
+        var inputs = dialog.querySelectorAll('input, textarea');
+        inputs.forEach(function(input) {
+          var ph = input.getAttribute('placeholder') || '';
+          if (ph === 'Your name') input.setAttribute('placeholder', 'Student name');
+          if (ph === '您的姓名') input.setAttribute('placeholder', '學生姓名');
+          if (ph.indexOf('your child') !== -1)
+            input.setAttribute('placeholder', ph.replace('your child', 'the student'));
+          if (ph.indexOf('Has your child') !== -1)
+            input.setAttribute('placeholder', 'Any prior instrument experience? For how long?');
+          if (ph.indexOf('您的孩子') !== -1)
+            input.setAttribute('placeholder', ph.replace('您的孩子', '學生'));
+        });
+        var desc = dialog.querySelector('p');
+        if (desc) {
+          var dt = desc.textContent || '';
+          if (dt.indexOf("child's musical") !== -1)
+            desc.textContent = "Tell me a bit about the student's musical background so I can prepare the perfect first lesson.";
+          if (dt.indexOf('孩子的音樂') !== -1)
+            desc.textContent = '請告訴我學生的音樂背景，讓我為第一堂課做好準備。';
+        }
+      });
+      formObs.observe(document.body, { childList: true, subtree: true });
+    });
+    </script>
+
     <!-- Fix: Browser back button closes dialog instead of navigating away -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
