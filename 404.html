@@ -442,7 +442,7 @@ Error generating stack: `+l.message+`
       var origFetch = window.fetch;
 
       window.fetch = function(url, opts) {
-        if (typeof url === 'string' && (url.indexOf('sendWhatsAppLead') !== -1 || url.indexOf('trpc') !== -1)) {
+        if (typeof url === 'string' && (url.indexOf('sendWhatsAppLead') !== -1)) {
           var body = opts && opts.body ? JSON.parse(opts.body) : {};
           var data = body && body['0'] ? body['0'].json : body;
           var msg = 'Hi, I am interested in music lessons.';
