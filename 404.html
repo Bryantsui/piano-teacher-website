@@ -409,17 +409,13 @@ Error generating stack: `+l.message+`
         flex-direction: column !important;
         height: 100% !important;
       }
-      /* Push the last child (paragraph) to fill remaining space so cards match height */
-      .grid[class*="md:grid-cols-3"] > div > p:last-of-type {
-        flex-grow: 1 !important;
-      }
 
       /* === BOTH WEB + MOBILE: Center icon bubbles inside cards === */
       .grid[class*="md:grid-cols-3"] > div {
         align-items: center !important;
         text-align: center !important;
       }
-      /* Icon bubbles - fixed 48px, centered */
+      /* Icon bubbles - fixed size, centered */
       .w-12.h-12.rounded-full,
       .w-10.h-10.rounded-full {
         flex-shrink: 0 !important;
@@ -429,7 +425,6 @@ Error generating stack: `+l.message+`
         margin-left: auto !important;
         margin-right: auto !important;
       }
-      /* SVGs inside bubbles stay at intended size */
       .w-12.h-12.rounded-full svg {
         width: 24px !important;
         height: 24px !important;
@@ -448,7 +443,11 @@ Error generating stack: `+l.message+`
       .grid[class*="md:grid-cols-3"] > div .flex.gap-1 {
         justify-content: center !important;
       }
-      /* Italic testimonial text grows to push attribution down */
+      /* Testimonial attribution pinned to bottom */
+      .grid[class*="md:grid-cols-3"] > div > div:last-child {
+        margin-top: auto !important;
+      }
+      /* Testimonial italic text grows to push attribution down */
       .grid[class*="md:grid-cols-3"] > div p.italic {
         flex-grow: 1 !important;
       }
@@ -467,13 +466,64 @@ Error generating stack: `+l.message+`
         var allEls = document.querySelectorAll('h3, p');
         allEls.forEach(function(el) {
           var t = el.textContent.trim();
+          // ZH: Fix wrong trilingual card
           if (t === '終身熱情') {
             el.textContent = '三語教學';
           }
           if (t === '超越考試成績。我的教學方法培養對音樂的真正熱愛，為終身享受做準備。') {
             el.textContent = '精通廣東話、普通話和英語。適合香港所有學生。';
           }
+          // Rename "Consistency Over Turnover" to "Consistency"
+          if (t === 'Consistency Over Turnover') {
+            el.textContent = 'Consistency';
+          }
         });
+
+        // Young Talents: make all h3 headings the same height so descriptions align
+        var ytSection = null;
+        document.querySelectorAll('h2').forEach(function(h2) {
+          if (h2.textContent.trim() === 'Young Talents' || h2.textContent.trim() === '年輕人才') {
+            ytSection = h2.closest('section');
+          }
+        });
+        if (ytSection) {
+          var cards = ytSection.querySelectorAll('.grid > div');
+          var maxH3 = 0;
+          cards.forEach(function(card) {
+            var h3 = card.querySelector('h3');
+            if (h3) {
+              h3.style.minHeight = 'auto';
+              var h = h3.offsetHeight;
+              if (h > maxH3) maxH3 = h;
+            }
+          });
+          if (maxH3 > 0) {
+            cards.forEach(function(card) {
+              var h3 = card.querySelector('h3');
+              if (h3) h3.style.minHeight = maxH3 + 'px';
+            });
+          }
+        }
+
+        // What Parents Say: align attribution names to bottom
+        var psSection = null;
+        document.querySelectorAll('h2').forEach(function(h2) {
+          var txt = h2.textContent.trim();
+          if (txt === 'What Parents Say' || txt === '家長評價') {
+            psSection = h2.closest('section');
+          }
+        });
+        if (psSection) {
+          var cards = psSection.querySelectorAll('.grid > div');
+          cards.forEach(function(card) {
+            card.style.display = 'flex';
+            card.style.flexDirection = 'column';
+            var attrib = card.querySelector('div:last-child');
+            if (attrib && attrib.querySelector('.font-bold')) {
+              attrib.style.marginTop = 'auto';
+            }
+          });
+        }
       }
       fixContent();
       new MutationObserver(fixContent).observe(document.body, { childList: true, subtree: true });
