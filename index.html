@@ -452,7 +452,20 @@ Error generating stack: `+l.message+`
         flex-grow: 1 !important;
       }
 
-      /* === MOBILE: Stack icon + title vertically === */
+      /* Piano/Erhu cards: center the icon+title row */
+      #piano .flex.items-center.gap-3,
+      #erhu .flex.items-center.gap-3 {
+        justify-content: center !important;
+        width: 100% !important;
+      }
+      /* Ensure consistent gap between icon and title */
+      #piano .flex.items-center.gap-3,
+      #erhu .flex.items-center.gap-3 {
+        gap: 12px !important;
+        margin-bottom: 16px !important;
+      }
+
+            /* === MOBILE: Stack icon + title vertically === */
       @media (max-width: 768px) {
         .flex.items-center.gap-3 {
           flex-direction: column !important;
