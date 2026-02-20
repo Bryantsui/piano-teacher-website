@@ -465,12 +465,19 @@ Error generating stack: `+l.message+`
         margin-bottom: 16px !important;
       }
 
-            /* === MOBILE: Stack icon + title vertically === */
+            /* === MOBILE: Stack icon + title vertically (only inside cards, not header) === */
       @media (max-width: 768px) {
-        .flex.items-center.gap-3 {
+        section .grid .flex.items-center.gap-3 {
           flex-direction: column !important;
           text-align: center !important;
         }
+      }
+      /* Header logo row: always horizontal */
+      header .flex.items-center.gap-3,
+      header .flex.items-center.gap-2 {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        white-space: nowrap !important;
       }
     </style>
     <script>
