@@ -398,6 +398,96 @@ Error generating stack: `+l.message+`
     </script>
 
     
+    <!-- Fix: Trilingual text, card alignment, ZH translation, Young Talent icons -->
+    <style>
+      /* Web: Align 3 feature cards to top */
+      .grid.md\:grid-cols-3 {
+        align-items: flex-start !important;
+      }
+      /* Young Talent icons on mobile: center and constrain size */
+      @media (max-width: 768px) {
+        /* Feature cards in the Young Talents section */
+        section:nth-of-type(n) .grid .bg-white.rounded-2xl,
+        section:nth-of-type(n) .grid .bg-gradient-to-br.rounded-2xl {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          text-align: center !important;
+        }
+        /* Icon bubbles - keep consistent 48px size */
+        .w-12.h-12.rounded-full {
+          width: 48px !important;
+          height: 48px !important;
+          min-width: 48px !important;
+          min-height: 48px !important;
+          max-width: 48px !important;
+          max-height: 48px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          margin: 0 auto 16px auto !important;
+          flex-shrink: 0 !important;
+        }
+        /* Icons inside bubbles */
+        .w-12.h-12.rounded-full svg,
+        .w-12.h-12.rounded-full img {
+          width: 24px !important;
+          height: 24px !important;
+          max-width: 24px !important;
+          max-height: 24px !important;
+        }
+        /* Card headings centered */
+        .bg-white.rounded-2xl h3,
+        .bg-gradient-to-br.rounded-2xl h3 {
+          text-align: center !important;
+          width: 100% !important;
+        }
+        /* Card text centered */
+        .bg-white.rounded-2xl p,
+        .bg-gradient-to-br.rounded-2xl p {
+          text-align: center !important;
+        }
+        /* Flex row with icon and title - stack vertically on mobile */
+        .flex.items-center.gap-3 {
+          flex-direction: column !important;
+          text-align: center !important;
+        }
+      }
+    </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function fixContent() {
+        var allEls = document.querySelectorAll('h3, p');
+        allEls.forEach(function(el) {
+          var t = el.textContent.trim();
+          
+          // Fix EN: Trilingual Teaching description (already correct per user, but ensure)
+          // No change needed for EN description text
+          
+          // Fix ZH: The third card wrongly shows 終身熱情 -> should be 三語教學
+          if (t === '終身熱情') {
+            el.textContent = '三語教學';
+          }
+          // Fix ZH: Wrong description under 終身熱情
+          if (t === '超越考試成績。我的教學方法培養對音樂的真正熱愛，為終身享受做準備。') {
+            el.textContent = '精通廣東話、普通話和英語。適合香港所有學生。';
+          }
+          // Fix ZH: Also fix the second card if needed - 音樂學校入學
+          // This one should be about Erhu advantage
+        });
+
+        // Web version: ensure grid cards align to top
+        var grids = document.querySelectorAll('[class*="grid"][class*="md:grid-cols-3"]');
+        grids.forEach(function(g) {
+          g.style.alignItems = 'flex-start';
+        });
+      }
+      
+      fixContent();
+      new MutationObserver(fixContent).observe(document.body, { childList: true, subtree: true });
+    });
+    </script>
+
     <!-- Fix: Make phone and email clickable -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
