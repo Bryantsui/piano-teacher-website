@@ -452,16 +452,15 @@ Error generating stack: `+l.message+`
         flex-grow: 1 !important;
       }
 
-      /* Piano/Erhu cards: center the icon+title row */
+      /* Piano/Erhu cards: stack icon above title */
       #piano .flex.items-center.gap-3,
       #erhu .flex.items-center.gap-3 {
+        flex-direction: column !important;
         justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
         width: 100% !important;
-      }
-      /* Ensure consistent gap between icon and title */
-      #piano .flex.items-center.gap-3,
-      #erhu .flex.items-center.gap-3 {
-        gap: 12px !important;
+        gap: 8px !important;
         margin-bottom: 16px !important;
       }
 
@@ -479,10 +478,13 @@ Error generating stack: `+l.message+`
         align-items: center !important;
         text-align: center !important;
       }
-      /* Icon+title row: centered horizontally */
+      /* Icon+title row: stacked vertically, centered */
       .grid[class*="md:grid-cols-2"] > div > .flex.items-center.gap-3 {
+        flex-direction: column !important;
         justify-content: center !important;
+        align-items: center !important;
         width: 100% !important;
+        gap: 8px !important;
       }
       /* Description text centered */
       .grid[class*="md:grid-cols-2"] > div > p {
