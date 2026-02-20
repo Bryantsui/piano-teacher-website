@@ -563,6 +563,28 @@ Error generating stack: `+l.message+`
     });
     </script>
 
+    <!-- QR: Auto-open inquiry form when ?form=open is in URL -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.location.search.indexOf('form=open') !== -1) {
+        var attempts = 0;
+        var tryOpen = setInterval(function() {
+          attempts++;
+          var btns = document.querySelectorAll('button');
+          for (var i = 0; i < btns.length; i++) {
+            var t = btns[i].textContent.trim();
+            if (t === 'Start Your Journey' || t === '開始您的音樂之旅') {
+              btns[i].click();
+              clearInterval(tryOpen);
+              return;
+            }
+          }
+          if (attempts > 30) clearInterval(tryOpen);
+        }, 300);
+      }
+    });
+    </script>
+
     <!-- Fix: Make phone and email clickable -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
