@@ -472,7 +472,43 @@ Error generating stack: `+l.message+`
           text-align: center !important;
         }
       }
-      /* Header logo row: always horizontal */
+      /* Choose Your Path + Lesson Packages: center all card content */
+      .grid[class*="md:grid-cols-2"] > div {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+      /* Icon+title row: centered horizontally */
+      .grid[class*="md:grid-cols-2"] > div > .flex.items-center.gap-3 {
+        justify-content: center !important;
+        width: 100% !important;
+      }
+      /* Description text centered */
+      .grid[class*="md:grid-cols-2"] > div > p {
+        text-align: center !important;
+      }
+      /* Bullet lists: centered as a block, items inline-flex */
+      .grid[class*="md:grid-cols-2"] > div ul {
+        display: inline-flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+      .grid[class*="md:grid-cols-2"] > div ul li {
+        justify-content: center !important;
+      }
+      /* Buttons centered */
+      .grid[class*="md:grid-cols-2"] > div > button,
+      .grid[class*="md:grid-cols-2"] > div > a {
+        align-self: center !important;
+      }
+      /* Price text centered */
+      .grid[class*="md:grid-cols-2"] > div > .text-3xl {
+        text-align: center !important;
+      }
+
+            /* Header logo row: always horizontal */
       header .flex.items-center.gap-3,
       header .flex.items-center.gap-2 {
         flex-direction: row !important;
