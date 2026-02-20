@@ -477,6 +477,19 @@ Error generating stack: `+l.message+`
           if (t === 'Consistency Over Turnover') {
             el.textContent = 'Consistency';
           }
+          // Fix Trilingual card: match font size to Piano/Erhu cards
+          if (t === 'Trilingual Teaching' || t === '三語教學') {
+            if (el.tagName === 'H3') {
+              el.classList.add('text-xl');
+              el.classList.remove('mb-2');
+              el.classList.add('mb-3');
+            }
+          }
+          if (t.indexOf('Fluent in Cantonese') === 0 || t.indexOf('精通廣東話') === 0) {
+            if (el.tagName === 'P') {
+              el.classList.remove('text-sm');
+            }
+          }
         });
 
         // Young Talents: make all h3 headings the same height so descriptions align
